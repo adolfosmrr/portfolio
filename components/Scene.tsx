@@ -6,7 +6,7 @@ import { Canvas } from '@react-three/fiber'
 export default function Scene() {
     return (
         <>
-            <Canvas>
+            <Canvas camera={{position: [3, 6], fov: 40 }}>
                 <mesh>
                     <boxGeometry />
                     <meshNormalMaterial />
