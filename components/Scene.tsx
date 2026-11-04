@@ -10,7 +10,7 @@ import { books } from '@/data/books'
 export default function Scene() {
     return (
         <>
-            <Canvas camera={{position: [-5, 2, 4], fov: 40 }}>
+            <Canvas camera={{position: [-6, 2, 4], fov: 40 }}>
                 <ambientLight intensity={1} />
                 {
                     books.map((book, i) => {
