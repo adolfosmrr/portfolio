@@ -10,6 +10,17 @@ type BookProps = {
 export default function Book({ position, book }: BookProps ){
 
     const texture = useTexture(book.screen)
+    const planeAspect = 1.2 / 1.8
+    const img = texture.image as HTMLImageElement
+    const imageAspect = img.width / img.height
+
+    if (imageAspect > planeAspect) {
+        texture.repeat.x = planeAspect / imageAspect
+        texture.offset.x = (1 - texture.repeat.x) / 2
+    } else {
+        texture.repeat.y = imageAspect / planeAspect
+        texture.offset.y = (1 - texture.repeat.y) / 2
+    }
 
     return (
         <Float speed={0}>
