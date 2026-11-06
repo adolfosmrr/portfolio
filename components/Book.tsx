@@ -42,8 +42,8 @@ export default function Book({ position, book }: BookProps ){
         <Float speed={0}>
             <mesh position={position}>
                 <boxGeometry args={[0.3, 2, 1.4]} />
-                <meshNormalMaterial />
-                <Text fontSize={0.15} color="white" position={[0, 0, 0.71]} rotation={[0, 0, Math.PI / 2]}>
+                <meshPhysicalMaterial transmission={1} roughness={0.3} thickness={0.5} />
+                <Text fontSize={0.15} color="white" position={[0, 0, 0.72]} rotation={[0, 0, Math.PI / 2]}>
                     {book.title}
                 </Text>
                 <mesh ref={planeRef} rotation={[0, -Math.PI / 2, 0]} position={[-0.16, 0, 0]}>
