@@ -24,6 +24,7 @@ export default function BookRow() {
         if (!groupRef.current) return
 
         current.current = THREE.MathUtils.lerp(current.current, scrollTarget.current, 0.1)
+        
 
         const total = rowBooks.length * 0.6
 
@@ -31,9 +32,6 @@ export default function BookRow() {
             let x = (i * 0.6 + current.current) % total
             if (x < 0) x += total
             child.position.x = x - total / 2
-            const edge = Math.abs(child.position.x) / (total / 2)
-            const s = THREE.MathUtils.smoothstep(1 - edge, 0, 0.25)
-            child.scale.setScalar(s)
         })
     })
 
