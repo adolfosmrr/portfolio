@@ -10,6 +10,7 @@ export default function BookRow() {
     const groupRef = useRef<THREE.Group>(null)
 
     const scrollTarget = useRef(0)
+    const current = useRef(0)
 
     useEffect(() => {
         const onWheel = (e: WheelEvent) => {
@@ -17,25 +18,32 @@ export default function BookRow() {
         }
         window.addEventListener('wheel', onWheel)
         return () => window.removeEventListener('wheel', onWheel)
-    }, [])  
+    }, [])
 
     useFrame(() => {
         if (!groupRef.current) return
-        groupRef.current.position.x = THREE.MathUtils.lerp(
-            groupRef.current.position.x, scrollTarget.current, 0.1
-        )
+
+        current.current = THREE.MathUtils.lerp(current.current, scrollTarget.current, 0.1)
+
+        const total = rowBooks.length * 0.6
+
+        groupRef.current.children.forEach((child, i) => {
+            let x = (i * 0.6 + current.current) % total
+            if (x < 0) x += total
+            child.position.x = x - total / 2
+            const edge = Math.abs(child.position.x) / (total / 2)
+            const s = THREE.MathUtils.smoothstep(1 - edge, 0, 0.25)
+            child.scale.setScalar(s)
+        })
     })
+
+    const rowBooks = [...books, ...books, ...books]
 
     return (
         <group ref={groupRef}>
-            {
-                books.map((book, i) => {
-                    const x = (i - (books.length - 1) / 2) * 0.6
-                    return (
-                        <Book key={book.slug} position={[x, 0, 0]} book={book} />
-                    )
-                })
-            }
+            {rowBooks.map((book, i) => (
+                <Book key={`${book.slug}-${i}`} position={[0, 0, 0]} book={book} />
+            ))}
         </group>
     )
 }
