@@ -60,7 +60,7 @@ export default function Book({ position, book }: BookProps ){
                 position={position}
                 onPointerOver={(e) => {e.stopPropagation(); setHovered(true)}}
                 onPointerOut={() => setHovered(false)}
-                onClick={() => {e.stopPropagation(); router.push(book.href ?? `/work/${book.slug}`)}}
+                onClick={(e) => {e.stopPropagation(); router.push(book.href ?? `/work/${book.slug}`)}}
             >
                 <boxGeometry args={[0.3, 2, 1.4]} />
                 <meshPhysicalMaterial transmission={1} roughness={0.3} thickness={0.5} />
