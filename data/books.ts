@@ -2,6 +2,7 @@ export type Book = {
     slug: string
     title: string
     screen: string
+    href?: string
 }
 
 export const books: Book[] = [
@@ -33,16 +34,19 @@ export const books: Book[] = [
     {
         slug: "skills",
         title: "Skills",
-        screen: "/screens/skills.avif"
+        screen: "/screens/skills.avif",
+        href: "/skills"
     },
     {
         slug: "about-me",
         title: "About Me",
-        screen: "/screens/about-me.avif"
+        screen: "/screens/about-me.avif",
+        href: "/about-me"
     },
     {
         slug: "my-hobbies",
         title: "My Hobbies",
-        screen: "/screens/hobbies.avif"
+        screen: "/screens/hobbies.avif",
+        href: "/my-hobbies"
     },
 ]
