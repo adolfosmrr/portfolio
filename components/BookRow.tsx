@@ -26,10 +26,10 @@ export default function BookRow() {
         current.current = THREE.MathUtils.lerp(current.current, scrollTarget.current, 0.1)
         
 
-        const total = rowBooks.length * 0.6
+        const total = rowBooks.length * 0.6 //14.4
 
         groupRef.current.children.forEach((child, i) => {
-            let x = (i * 0.6 + current.current) % total
+            let x = (i * 0.6 + current.current) % total 
             if (x < 0) x += total
             child.position.x = x - total / 2
         })
