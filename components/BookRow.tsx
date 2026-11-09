@@ -11,6 +11,7 @@ export default function BookRow() {
 
     const scrollTarget = useRef(0)
     const current = useRef(0)
+    const lastTouchX = useRef<number | null>(null)
 
     useEffect(() => {
         const onWheel = (e: WheelEvent) => {
@@ -25,12 +26,34 @@ export default function BookRow() {
                 scrollTarget.current -= 0.6
             }
         }
+
+        const onTouchStart = (e: TouchEvent) => {
+            lastTouchX.current = e.touches[0].clientX
+        }
+
+        const onTouchMove = (e: TouchEvent) => {
+            if (lastTouchX.current === null) return
+            const x = e.touches[0].clientX
+            const delta = lastTouchX.current - x
+            scrollTarget.current -= delta * 0.01
+            lastTouchX.current = x
+        }
+
+        const onTouchEnd = () => {
+            lastTouchX.current = null
+        }
         
         window.addEventListener('wheel', onWheel)
         window.addEventListener('keydown', onKeyDown)
+        window.addEventListener('touchstart', onTouchStart, { passive: true})
+        window.addEventListener('touchmove', onTouchMove, { passive: true})
+        window.addEventListener('touchend', onTouchEnd)
         return () => {
             window.removeEventListener('wheel', onWheel)
             window.removeEventListener('keydown', onKeyDown)
+            window.removeEventListener('touchstart', onTouchStart)
+            window.removeEventListener('touchmove', onTouchMove)
+            window.removeEventListener('touchend', onTouchEnd)
         }
     }, [])
 
