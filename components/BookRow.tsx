@@ -16,15 +16,28 @@ export default function BookRow() {
         const onWheel = (e: WheelEvent) => {
             scrollTarget.current += e.deltaY * 0.002
         }
+
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "ArrowLeft" || e.key === "ArrowDown") {
+                scrollTarget.current += 0.6
+            }
+            if (e.key === "ArrowRight" || e.key === "ArrowUp") {
+                scrollTarget.current -= 0.6
+            }
+        }
+        
         window.addEventListener('wheel', onWheel)
-        return () => window.removeEventListener('wheel', onWheel)
+        window.addEventListener('keydown', onKeyDown)
+        return () => {
+            window.removeEventListener('wheel', onWheel)
+            window.removeEventListener('keydown', onKeyDown)
+        }
     }, [])
 
     useFrame(() => {
         if (!groupRef.current) return
 
         current.current = THREE.MathUtils.lerp(current.current, scrollTarget.current, 0.1)
-        
 
         const total = rowBooks.length * 0.6 //14.4
 
