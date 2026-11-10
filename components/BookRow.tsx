@@ -3,7 +3,7 @@ import Book from "./Book"
 
 import { books } from '@/data/books'
 import * as THREE from 'three'
-import { useFrame } from "@react-three/fiber"
+import { useFrame, useThree } from "@react-three/fiber"
 
 export default function BookRow() {
 
@@ -12,6 +12,9 @@ export default function BookRow() {
     const scrollTarget = useRef(0)
     const current = useRef(0)
     const lastTouchX = useRef<number | null>(null)
+    const { viewport } = useThree()
+
+    const scale = Math.min(1, viewport.width / 2.5)
 
     useEffect(() => {
         const onWheel = (e: WheelEvent) => {
@@ -62,7 +65,7 @@ export default function BookRow() {
 
         current.current = THREE.MathUtils.lerp(current.current, scrollTarget.current, 0.1)
 
-        const total = rowBooks.length * 0.6 //14.4
+        const total = rowBooks.length * 0.6
 
         groupRef.current.children.forEach((child, i) => {
             let x = (i * 0.6 + current.current) % total 
@@ -74,7 +77,7 @@ export default function BookRow() {
     const rowBooks = [...books, ...books, ...books]
 
     return (
-        <group ref={groupRef}>
+        <group ref={groupRef} scale={scale}>
             {rowBooks.map((book, i) => (
                 <Book key={`${book.slug}-${i}`} position={[0, 0, 0]} book={book} />
             ))}
